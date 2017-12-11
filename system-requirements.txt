@@ -1,0 +1,15 @@
+python-numpy
+python-opencv
+git
+curl
+libdc1394-22
+libjpeg-turbo-progs
+graphicsmagick
+libmemcached-dev
+libgraphicsmagick++3 
+libgraphicsmagick3
+libgraphicsmagick++1-dev
+libgraphicsmagick1-dev
+libboost-python-dev
+gifsicle
+ffmpeg
