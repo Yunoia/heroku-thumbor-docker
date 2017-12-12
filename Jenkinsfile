@@ -16,12 +16,12 @@ pipeline {
                 script {
                     sh 'git pull'
                     if (env.BRANCH_NAME.contains("develop")) {
-                        docker.withRegistry('registry.heroku.com', 'docker-credentials') {
+                        docker.withRegistry('https://registry.heroku.com', 'docker-credentials') {
                             def tag = "${getVersion() - getCommitSHA()}"
                             docker.build("${HEROKU_STAGE_NAME}:${tag}").push(tag)
                         }
                     } else {
-                        docker.withRegistry('registry.heroku.com', 'docker-credentials') {
+                        docker.withRegistry('https://registry.heroku.com', 'docker-credentials') {
                             def tag = "${getVersion()}"
                             docker.build("${HEROKU_PROD_NAME}:${tag}").push(tag)
                         }
