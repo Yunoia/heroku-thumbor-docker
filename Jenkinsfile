@@ -15,16 +15,9 @@ pipeline {
             steps {
                 script {
                     sh 'git pull'
-                    if (env.BRANCH_NAME.contains("develop")) {
-                        docker.withRegistry('https://registry.heroku.com', 'docker-credentials') {
-                            def tag = "${getVersion() - getCommitSHA()}"
-                            docker.build("${HEROKU_STAGE_NAME}:${tag}").push(tag)
-                        }
-                    } else {
-                        docker.withRegistry('https://registry.heroku.com', 'docker-credentials') {
-                            def tag = "${getVersion()}"
-                            docker.build("${HEROKU_PROD_NAME}:${tag}").push(tag)
-                        }
+                    def config = getConfing()
+                    docker.withRegistry('https://registry.heroku.com', 'docker-credentials') {
+                        docker.build("${config.appName}:${config.tag}").push(config.tag)
                     }
                 }
             }
@@ -41,6 +34,24 @@ pipeline {
             notifyBuild('ABORTED')
         }
     }
+}
+
+def getConfing() {
+    switch (env.BRANCH_NAME) {
+        case "develop":
+            return [
+                    tag    : "${getVersion()}-develop-${getCommitSHA()}",
+                    appName: HEROKU_STAGE_NAME,
+            ]
+        case "master":
+            return [
+                    tag    : "${getVersion()}",
+                    appName: HEROKU_PROD_NAME,
+            ]
+        default:
+            return null
+    }
+
 }
 
 def getCommitSHA() {
