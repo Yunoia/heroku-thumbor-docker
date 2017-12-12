@@ -16,7 +16,7 @@ pipeline {
                 script {
                     sh 'git pull'
                     def config = getConfing()
-                    docker.withRegistry('https://registry.heroku.com', 'docker-credentials') {
+                    docker.withRegistry('https://registry.heroku.com', 'docker-credentials-api') {
                         docker.build("${config.appName}:${config.tag}").push(config.tag)
                     }
                 }
