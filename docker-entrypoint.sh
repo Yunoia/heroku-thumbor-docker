@@ -11,12 +11,12 @@ if [ -n "$LOG_LEVEL" ]; then
 fi
 
 # Check if thumbor port is defined -> (default port 80)
-if [ -z ${THUMBOR_PORT+x} ]; then
-    THUMBOR_PORT=8000
+if [ -z ${PORT+x} ]; then
+    PORT=8000
 fi
 
 if [ "$1" = 'thumbor' ]; then
-    exec thumbor --port=$THUMBOR_PORT --conf=/usr/src/app/thumbor.conf $LOG_PARAMETER
+    exec thumbor --port=$PORT --conf=/usr/src/app/thumbor.conf $LOG_PARAMETER
 fi
 
 exec "$@"

@@ -1,7 +1,8 @@
 FROM python:2
 
-MAINTAINER Alex Titov <titov.cz@gmail.com>
+MAINTAINER Edu Herraiz <ghark@gmail.com>
 
+VOLUME /logs
 VOLUME /data
 
 # Things required for a python/pip environment
@@ -14,22 +15,17 @@ RUN  \
     xargs apt-get -y -q install < /usr/src/app/system-requirements.txt && \
     apt-get clean
 
-RUN sed -i "s/jessie main/jessie main contrib non-free/" /etc/apt/sources.list
-RUN echo "deb http://http.debian.net/debian jessie-backports main contrib non-free" >> /etc/apt/sources.list
-RUN apt-get update && apt-get install -y \
-    ffmpeg
-
 ENV HOME /usr/src/app
 ENV SHELL bash
 ENV WORKON_HOME /usr/src/app
 WORKDIR /usr/src/app
 
 COPY requirements.txt /usr/src/app/requirements.txt
-RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+RUN pip install --trusted-host None --no-cache-dir --use-wheel -r /usr/src/app/requirements.txt
 
 COPY conf/thumbor.conf.tpl /usr/src/app/thumbor.conf.tpl
 
-RUN \
+RUN \ 
     ln /usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so /usr/local/lib/python2.7/cv2.so && \
     ln /usr/lib/python2.7/dist-packages/cv.py /usr/local/lib/python2.7/cv.py
 
