@@ -1,5 +1,6 @@
 CURRENT_COMMIT_SHA_OUTPUT = "commit.sha"
 HEROKU_STAGE_NAME = "protagonist-thumbor-stage"
+HEROKU_PROD_NAME = "protagonist-thumbor"
 OUTPUT_LATEST_TAG = "latest.tag"
 
 pipeline {
@@ -13,10 +14,17 @@ pipeline {
         stage('Build and push') {
             steps {
                 script {
-                    sh 'whoami'
                     sh 'git pull'
-                    docker.withRegistry('registry.heroku.com') {
-                        docker.build("${HEROKU_STAGE_NAME}:${getVersion() - getCommitSHA()}").push(tag)
+                    if (env.BRANCH_NAME.contains("develop")) {
+                        docker.withRegistry('registry.heroku.com', 'docker-credentials') {
+                            def tag = "${getVersion() - getCommitSHA()}"
+                            docker.build("${HEROKU_STAGE_NAME}:${tag}").push(tag)
+                        }
+                    } else {
+                        docker.withRegistry('registry.heroku.com', 'docker-credentials') {
+                            def tag = "${getVersion()}"
+                            docker.build("${HEROKU_PROD_NAME}:${tag}").push(tag)
+                        }
                     }
                 }
             }
