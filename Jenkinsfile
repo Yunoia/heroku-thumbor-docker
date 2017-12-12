@@ -13,6 +13,7 @@ pipeline {
         stage('Build and push') {
             steps {
                 script {
+                    sh 'git pull'
                     docker.withRegistry('registry.heroku.com') {
                         docker.build("${HEROKU_STAGE_NAME}:${getVersion() - getCommitSHA()}").push(tag)
                     }
