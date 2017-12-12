@@ -1,6 +1,6 @@
 CURRENT_COMMIT_SHA_OUTPUT = "commit.sha"
-HEROKU_STAGE_NAME = "protagonist-thumbor-stage"
-HEROKU_PROD_NAME = "protagonist-thumbor"
+HEROKU_STAGE_NAME = "protagonist-thumbor-stage/web"
+HEROKU_PROD_NAME = "protagonist-thumbor/web"
 OUTPUT_LATEST_TAG = "latest.tag"
 
 pipeline {
