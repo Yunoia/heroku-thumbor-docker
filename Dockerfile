@@ -30,6 +30,9 @@ COPY conf/supervisord.conf /etc/supervisor/supervisord.conf
 COPY conf/docker-entrypoint.sh /docker-entrypoint.sh
 COPY conf/thumbor-entrypoint.sh /usr/src/app/thumbor-entrypoint.sh
 COPY conf/kill.py /usr/src/app/kill.py
+COPY conf/.profile.d /app/.profile.d
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN \ 
     ln /usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so /usr/local/lib/python2.7/cv2.so && \
