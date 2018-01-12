@@ -50,7 +50,7 @@ http {
                 add_header 'Access-Control-Allow-Origin' '*';
                 add_header 'Access-Control-Allow-Credentials' 'true';
                 add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
+                add_header 'Access-Control-Allow-Headers' '*';
 
                 if ($request_method = 'OPTIONS') {
                     return 204;
