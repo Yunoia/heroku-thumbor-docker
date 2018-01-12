@@ -21,3 +21,5 @@ python-dev
 libboost-python-dev
 gifsicle=1.88*
 ffmpeg
+nginx
+supervisor
