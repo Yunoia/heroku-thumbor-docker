@@ -51,6 +51,8 @@ http {
                 listen {{ PORT | default(80) }} default;
                 server_name localhost;
 
+                proxy_set_header Connection "";
+
                 add_header 'Access-Control-Allow-Origin' '*';
                 add_header 'Access-Control-Allow-Credentials' 'true';
                 add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
@@ -60,14 +62,6 @@ http {
                 if ($request_method = 'OPTIONS') {
                     return 204;
                 }
-
-
-                send_timeout 3000;
-                client_body_timeout   3000;
-                client_header_timeout 3000;
-                proxy_connect_timeout 3000;
-                proxy_send_timeout 3000;
-                proxy_read_timeout 3000;
 
                 location ~* "^/(..)(..)(.+)?$" {
                     root        /data/result_storage/v2/$1/$2;
