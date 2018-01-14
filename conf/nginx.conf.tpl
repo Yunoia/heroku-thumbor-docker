@@ -51,7 +51,7 @@ http {
                 add_header 'Access-Control-Allow-Credentials' 'true';
                 add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
                 add_header 'Access-Control-Allow-Headers' '*';
-                add_header 'Access-Control-Expose-Headers' '*';
+                add_header 'Access-Control-Expose-Headers' 'Location';
 
                 if ($request_method = 'OPTIONS') {
                     return 204;
