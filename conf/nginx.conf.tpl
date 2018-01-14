@@ -61,6 +61,14 @@ http {
                     return 204;
                 }
 
+
+                send_timeout 3000;
+                client_body_timeout   3000;
+                client_header_timeout 3000;
+                proxy_connect_timeout 3000;
+                proxy_send_timeout 3000;
+                proxy_read_timeout 3000;
+
                 location ~* "^/(..)(..)(.+)?$" {
                     root        /data/result_storage/v2/$1/$2;
                     expires     1M;
