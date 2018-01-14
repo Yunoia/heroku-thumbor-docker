@@ -23,9 +23,14 @@ http {
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
 
-        send_timeout 300;
-        client_body_timeout   300;
-        client_header_timeout 300;
+        send_timeout 600;
+        client_body_timeout   600;
+        client_header_timeout 600;
+        proxy_connect_timeout 600;
+        proxy_connect_timeout 600;
+        proxy_send_timeout 600;
+        proxy_read_timeout 600;
+
 
         access_log /logs/access.log;
         error_log /logs/error.log;
