@@ -10,7 +10,7 @@ http {
         sendfile on;
         tcp_nopush on;
         tcp_nodelay on;
-        keepalive_timeout 300;
+        keepalive_timeout 3000;
         types_hash_max_size 2048;
         server_tokens off;
         port_in_redirect on;
@@ -23,12 +23,12 @@ http {
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
 
-        send_timeout 600;
-        client_body_timeout   600;
-        client_header_timeout 600;
-        proxy_connect_timeout 600;
-        proxy_send_timeout 600;
-        proxy_read_timeout 600;
+        send_timeout 3000;
+        client_body_timeout   3000;
+        client_header_timeout 3000;
+        proxy_connect_timeout 3000;
+        proxy_send_timeout 3000;
+        proxy_read_timeout 3000;
 
 
         access_log /logs/access.log;
