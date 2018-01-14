@@ -10,7 +10,7 @@ http {
         sendfile on;
         tcp_nopush on;
         tcp_nodelay on;
-        keepalive_timeout 65;
+        keepalive_timeout 300;
         types_hash_max_size 2048;
         server_tokens off;
         port_in_redirect on;
