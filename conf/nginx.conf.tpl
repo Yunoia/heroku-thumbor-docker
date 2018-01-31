@@ -10,7 +10,7 @@ http {
         sendfile on;
         tcp_nopush on;
         tcp_nodelay on;
-        keepalive_timeout 65;
+        keepalive_timeout 3000;
         types_hash_max_size 2048;
         server_tokens off;
         port_in_redirect on;
@@ -23,9 +23,13 @@ http {
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
 
-        send_timeout 300;
-        client_body_timeout   300;
-        client_header_timeout 300;
+        send_timeout 300000;
+        client_body_timeout   300000;
+        client_header_timeout 300000;
+        proxy_connect_timeout 300000;
+        proxy_send_timeout 300000;
+        proxy_read_timeout 300000;
+
 
         access_log /logs/access.log;
         error_log /logs/error.log;
@@ -47,10 +51,13 @@ http {
                 listen {{ PORT | default(80) }} default;
                 server_name localhost;
 
+                proxy_set_header Connection "";
+
                 add_header 'Access-Control-Allow-Origin' '*';
                 add_header 'Access-Control-Allow-Credentials' 'true';
                 add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
+                add_header 'Access-Control-Allow-Headers' '*';
+                add_header 'Access-Control-Expose-Headers' 'Location';
 
                 if ($request_method = 'OPTIONS') {
                     return 204;
