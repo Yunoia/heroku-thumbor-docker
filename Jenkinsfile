@@ -32,8 +32,8 @@ pipeline {
                                 httpMode: 'PATCH',
                                 requestBody: '\'{\"updates\":[{\"type\":\"web\",\"docker_image\": \"${imageId}\"]}\'',
                                 customHeaders:[[name:'Accept',value:'application/json'],[name:'version',value:'3.docker-releases'],[name:'Authorization',value:"Bearer ${PASSWORD}"]]
-                        println("Status: "+response.status)
-                        println("Content: "+response.content)
+                        println("Status: "+releaseResponse.status)
+                        println("Content: "+releaseResponse.content)
                     }
                 }
             }
