@@ -21,7 +21,7 @@ ENV WORKON_HOME /usr/src/app
 WORKDIR /usr/src/app
 
 COPY requirements.txt /usr/src/app/requirements.txt
-RUN pip install --trusted-host None --no-cache-dir --use-wheel -r /usr/src/app/requirements.txt
+RUN pip install --trusted-host None --no-cache-dir -r /usr/src/app/requirements.txt
 
 COPY conf/thumbor.conf.tpl /usr/src/app/thumbor.conf.tpl
 COPY conf/nginx.conf.tpl /etc/nginx/nginx.conf.tpl

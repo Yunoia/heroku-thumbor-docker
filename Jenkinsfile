@@ -1,6 +1,6 @@
 CURRENT_COMMIT_SHA_OUTPUT = "commit.sha"
-HEROKU_STAGE_NAME = "protagonist-thumbor-stage/web"
-HEROKU_PROD_NAME = "protagonist-thumbor/web"
+HEROKU_STAGE_NAME = "protagonist-thumbor-stage"
+HEROKU_PROD_NAME = "protagonist-thumbor"
 OUTPUT_LATEST_TAG = "latest.tag"
 
 pipeline {
@@ -17,7 +17,31 @@ pipeline {
                     sh 'git pull'
                     def config = getConfing()
                     docker.withRegistry('https://registry.heroku.com', 'docker-credentials-api') {
-                        docker.build("${config.appName}:${config.tag}").push(config.tag)
+                        docker.build("${config.appName}/web:${config.tag}").push(config.tag)
+                    }
+                }
+            }
+        }
+        stage('Release') {
+            steps {
+                script {
+                    def config = getConfing()
+                    def imageId = sh script: "docker inspect registry.heroku.com/${config.appName}/web:${config.tag} --format={{.Id}}", returnStdout: true
+                    def body = [
+                            updates: [
+                                    [
+                                            type        : 'web',
+                                            docker_image: imageId.trim()
+                                    ]
+                            ]
+                    ]
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials-api', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+                        def releaseResponse = httpRequest url: "https://api.heroku.com/apps/${config.appName}/formation",
+                                httpMode: 'PATCH',
+                                requestBody: toJson(body),
+                                customHeaders: [[name: 'Accept', value: 'application/vnd.heroku+json; version=3.docker-releases'], [name: 'Authorization', value: "Bearer ${PASSWORD}"]]
+                        println("Status: " + releaseResponse.status)
+                        println("Content: " + releaseResponse.content)
                     }
                 }
             }
@@ -95,4 +119,8 @@ def notifyBuild(String buildStatus = 'STARTED') {
 
     echo summary
     slackSend(failOnError: true, color: colorCode, message: summary)
+}
+
+def toJson (input) {
+    return groovy.json.JsonOutput.toJson(input)
 }
