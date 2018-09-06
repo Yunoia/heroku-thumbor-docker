@@ -25,6 +25,7 @@ pipeline {
         stage('Release') {
             steps {
                script {
+                def config = getConfing()
                 def imageId = sh script: "docker inspect https://registry.heroku.com/${config.appName}:${config.tag} --format={{.Id}}", returnStdout: true
                 def payLoad = "{'updates':[{'type':'web','docker_image': ${imageId}]}"
                 withCredentials([usernamePassword(credentialsId: 'docker-credentials-api', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
