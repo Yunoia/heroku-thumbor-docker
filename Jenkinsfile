@@ -27,14 +27,23 @@ pipeline {
                 script {
                     def config = getConfing()
                     def imageId = sh script: "docker inspect registry.heroku.com/${config.appName}:${config.tag} --format={{.Id}}", returnStdout: true
+                    def body = [
+                            updates: [
+                                    [
+                                            type        : 'web',
+                                            docker_image: 'imageId'
+                                    ]
+                            ]
+                    ]
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials-api', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+                        println toJson(body)
                         def releaseResponse = httpRequest url: 'https://api.heroku.com/apps/protagonist-thumbor-stage/formation',
                                 httpMode: 'PATCH',
-                                requestBody: '\'{\"updates\":[{\"type\":\"web\",\"docker_image\": \"${imageId}\"]}\'',
-                                customHeaders:[[name:'Accept',value:'application/vnd.heroku+json; version=3.docker-releases'],[name:'Authorization',value:"Bearer ${PASSWORD}"]],
+                                requestBody: toJson(body),
+                                customHeaders: [[name: 'Accept', value: 'application/vnd.heroku+json; version=3.docker-releases'], [name: 'Authorization', value: "Bearer ${PASSWORD}"]],
                                 validResponseCodes: '200:500'
-                        println("Status: "+releaseResponse.status)
-                        println("Content: "+releaseResponse.content)
+                        println("Status: " + releaseResponse.status)
+                        println("Content: " + releaseResponse.content)
                     }
                 }
             }
@@ -112,4 +121,9 @@ def notifyBuild(String buildStatus = 'STARTED') {
 
     echo summary
     slackSend(failOnError: true, color: colorCode, message: summary)
+}
+
+def toJson = {
+    input ->
+        groovy.json.JsonOutput.toJson(input)
 }
