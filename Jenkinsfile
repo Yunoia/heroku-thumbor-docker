@@ -123,7 +123,6 @@ def notifyBuild(String buildStatus = 'STARTED') {
     slackSend(failOnError: true, color: colorCode, message: summary)
 }
 
-def toJson = {
-    input ->
-        groovy.json.JsonOutput.toJson(input)
+def toJson (input) {
+    return groovy.json.JsonOutput.toJson(input)
 }
