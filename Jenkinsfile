@@ -29,7 +29,7 @@ pipeline {
                     def imageId = sh script: "docker inspect registry.heroku.com/${config.appName}:${config.tag} --format={{.Id}}", returnStdout: true
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials-api', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
                         def releaseResponse = httpRequest url: 'https://api.heroku.com/apps/protagonist-thumbor-stage/formation',
-                                httpMode: 'PATH',
+                                httpMode: 'PATCH',
                                 requestBody: '\'{\"updates\":[{\"type\":\"web\",\"docker_image\": \"${imageId}\"]}\'',
                                 customHeaders:[[name:'Accept',value:'application/json'],[name:'version',value:'3.docker-releases'],[name:'Authorization',value:"Bearer ${PASSWORD}"]]
                         println("Status: "+response.status)
