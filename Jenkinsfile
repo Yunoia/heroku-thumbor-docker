@@ -31,7 +31,7 @@ pipeline {
                             updates: [
                                     [
                                             type        : 'web',
-                                            docker_image: 'imageId'
+                                            docker_image: imageId
                                     ]
                             ]
                     ]
