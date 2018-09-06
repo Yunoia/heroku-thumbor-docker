@@ -31,7 +31,7 @@ pipeline {
                         def releaseResponse = httpRequest url: 'https://api.heroku.com/apps/protagonist-thumbor-stage/formation',
                                 httpMode: 'PATCH',
                                 requestBody: '\'{\"updates\":[{\"type\":\"web\",\"docker_image\": \"${imageId}\"]}\'',
-                                customHeaders:[[name:'Accept',value:'application/json'],[name:'version',value:'3.docker-releases'],[name:'Authorization',value:"Bearer ${PASSWORD}"]],
+                                customHeaders:[[name:'Accept',value:'application/vnd.heroku+json; version=3.docker-releases'],[name:'Authorization',value:"Bearer ${PASSWORD}"]],
                                 validResponseCodes: '200:500'
                         println("Status: "+releaseResponse.status)
                         println("Content: "+releaseResponse.content)
