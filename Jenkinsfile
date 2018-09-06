@@ -27,12 +27,11 @@ pipeline {
                 script {
                     def config = getConfing()
                     def imageId = sh script: "docker inspect registry.heroku.com/${config.appName}:${config.tag} --format={{.Id}}", returnStdout: true
-                    println imageId
                     def body = [
                             updates: [
                                     [
                                             type        : 'web',
-                                            docker_image: imageId
+                                            docker_image: imageId.trim()
                                     ]
                             ]
                     ]
