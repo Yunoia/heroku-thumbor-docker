@@ -40,8 +40,7 @@ pipeline {
                         def releaseResponse = httpRequest url: 'https://api.heroku.com/apps/protagonist-thumbor-stage/formation',
                                 httpMode: 'PATCH',
                                 requestBody: toJson(body),
-                                customHeaders: [[name: 'Accept', value: 'application/vnd.heroku+json; version=3.docker-releases'], [name: 'Authorization', value: "Bearer ${PASSWORD}"]],
-                                validResponseCodes: '200:500'
+                                customHeaders: [[name: 'Accept', value: 'application/vnd.heroku+json; version=3.docker-releases'], [name: 'Authorization', value: "Bearer ${PASSWORD}"]]
                         println("Status: " + releaseResponse.status)
                         println("Content: " + releaseResponse.content)
                     }
