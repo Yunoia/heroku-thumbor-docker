@@ -26,7 +26,7 @@ pipeline {
             steps {
                script {
                 def config = getConfing()
-                def imageId = sh script: "docker inspect https://registry.heroku.com/${config.appName}:${config.tag} --format={{.Id}}", returnStdout: true
+                def imageId = sh script: "docker inspect registry.heroku.com/${config.appName}:${config.tag} --format={{.Id}}", returnStdout: true
                 def payLoad = "{'updates':[{'type':'web','docker_image': ${imageId}]}"
                 withCredentials([usernamePassword(credentialsId: 'docker-credentials-api', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
                     sh "curl -n -X -f PATCH https://api.heroku.com/apps/protagonist-thumbor-stage/formation -d \"$payload\" -H \"Content-Type: application/json\" -H \"Accept: application/vnd.heroku+json; version=3.docker-releases\" -H \"Authorization: Bearer ${PASSWORD}"
