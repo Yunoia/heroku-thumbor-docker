@@ -35,6 +35,5 @@ RUN \
     ln /usr/lib/python2.7/dist-packages/cv2.x86_64-linux-gnu.so /usr/local/lib/python2.7/cv2.so
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["thumbor"]
 
 EXPOSE 80
