@@ -11,7 +11,7 @@ libgraphicsmagick-q16-3
 zlib1g-dev
 libboost-python-dev
 libmemcached-dev
-gifsicl
+gifsicle
 ffmpeg
 supervisor
 nginx
