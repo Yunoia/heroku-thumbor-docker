@@ -1,4 +1,4 @@
-argparse=1.2.1
+argparse==1.2.1
 rsa==3.1.4
 envtpl==0.6.0
 circus==0.15.0
